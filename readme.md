@@ -1,0 +1,14 @@
+.___
+   |
+   /Edlinker
+         |
+         Dockerfile
+         Gemfile
+         Gemfile.lock
+         .env
+         .dockerignore        
+   /edlinker-frontend
+        |
+        frontend.Dockerfile
+        .dockerignore        
+   docker-compose.yml

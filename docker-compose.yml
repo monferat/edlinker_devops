@@ -1,0 +1,43 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    env_file:
+      - ./Edlinker/.env
+    ports:
+      - 5431:5432
+  web:
+    build: 
+      context: ./Edlinker/
+      dockerfile: Dockerfile
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    environment:
+      - PGHOST=db
+      - PGUSER=postgres
+      - PGPASSWORD=postgres
+    volumes:
+      - ./Edlinker:/backend
+      - ./Edlinker/vendor/bundle:/backend/vendor/bundle    
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    env_file:
+      - ./Edlinker/.env
+  frontend:
+    container_name: frontend_app
+    build: 
+      context: ./edlinker-frontend/
+      dockerfile: frontend.Dockerfile    
+    stdin_open: true 
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - 4200:4200
+    env_file:
+      - ./Edlinker/.env
+    tty: true
