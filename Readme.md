@@ -33,7 +33,7 @@ docker-compose up
 ```
  - b) Запустити проект у фоновому режимі
 ```sh
-docker-compose up
+docker-compose up -d
 ```
 7. Зупинити всі запущені контейнери проекту
 ```sh
