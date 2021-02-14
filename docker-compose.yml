@@ -6,38 +6,38 @@ services:
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     env_file:
-      - ./Edlinker/.env
+      - ./edlinker-backend/.env
     ports:
       - 5431:5432
-  web:
+  backend:
+    container_name: backend_app
     build: 
-      context: ./Edlinker/
-      dockerfile: Dockerfile
+      context: ./edlinker-backend/
+      dockerfile: backend.Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
     environment:
-      - PGHOST=db
-      - PGUSER=postgres
-      - PGPASSWORD=postgres
+      - PGHOST=${DB_HOST}
+      - PGUSER=${POSTGRES_USER}
+      - PGPASSWORD=${POSTGRES_PASSWORD}
     volumes:
-      - ./Edlinker:/backend
-      - ./Edlinker/vendor/bundle:/backend/vendor/bundle    
+      - ./edlinker-backend:/backend
+      - ./edlinker-backend/vendor/bundle:/backend/vendor/bundle    
     ports:
       - 3000:3000
     depends_on:
       - db
     env_file:
-      - ./Edlinker/.env
+      - ./edlinker-backend/.env
   frontend:
     container_name: frontend_app
     build: 
       context: ./edlinker-frontend/
       dockerfile: frontend.Dockerfile    
-    stdin_open: true 
+    stdin_open: true
+    command: npm run ng -- serve --host 0.0.0.0 --disable-host-check --hmr 
     volumes:
       - .:/app
       - /app/node_modules
     ports:
       - 4200:4200
-    env_file:
-      - ./Edlinker/.env
     tty: true

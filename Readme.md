@@ -9,24 +9,14 @@
 #### Project Structure template:
  - Орієнтовна структура проекту(розміщення файлів): **project_template_structure.txt**
 
-#### Set up project:
-1. Збілдити образи контейнерів на основі докерфайлів (для фронтенду і бекенду)
+#### Set up project
+
+##### Frontend:
+1. Збілдити образи контейнерів на основі докерфайлів
 ```sh
 docker-compose build
 ```
-2. Встановлення yarn для webpack 
-```sh
-docker-compose run --rm web yarn install
-```
-4. Створення БД
-```sh
-docker-compose run --rm web rake db:create
-```
-5. Запуск міграції
-```sh
-docker-compose run --rm web rake db:migrate
-```
-6. 
+2. 
  - a) Запустити проект
 ```sh
 docker-compose up
@@ -35,11 +25,49 @@ docker-compose up
 ```sh
 docker-compose up -d
 ```
-7. Зупинити всі запущені контейнери проекту
+3. Зупинити всі запущені контейнери проекту
 ```sh
 docker-compose down
 ```
-### Additional commands: 
+
+##### Backend:
+
+###### Preparation:
+
+Додати рядок 
+```ruby
+  # Disable yarn integrity
+  config.webpacker.check_yarn_integrity = false
+```
+у файл **/edlinker-backend/config/environments/development.**
+
+
+1. Збілдити образи контейнерів на основі докерфайлів
+```sh
+docker-compose build
+```
+2. Створення БД
+```sh
+docker-compose run --rm web rake db:create
+```
+3. Запуск міграції
+```sh
+docker-compose run --rm web rake db:migrate
+```
+4. 
+ - a) Запустити проект
+```sh
+docker-compose up
+```
+ - b) Запустити проект у фоновому режимі
+```sh
+docker-compose up -d
+```
+5. Зупинити всі запущені контейнери проекту
+```sh
+docker-compose down
+```
+### Additional commands (бекенд): 
 1. Оновлення гемів при додаванні/видаленні гемів у Gemfile
 ```sh
 docker-compose run --rm web bundle install
