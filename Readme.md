@@ -11,7 +11,7 @@
 
 #### Set up project
 
-##### Frontend:
+#### Frontend:
 1. Збілдити образи контейнерів на основі докерфайлів
 ```sh
 docker-compose build
@@ -30,9 +30,9 @@ docker-compose up -d
 docker-compose down
 ```
 
-##### Backend:
+#### Backend:
 
-###### Preparation:
+##### Preparation:
 
 Додати рядок 
 ```ruby
@@ -48,11 +48,11 @@ docker-compose build
 ```
 2. Створення БД
 ```sh
-docker-compose run --rm web rake db:create
+docker-compose run --rm backend rake db:create
 ```
 3. Запуск міграції
 ```sh
-docker-compose run --rm web rake db:migrate
+docker-compose run --rm backend rake db:migrate
 ```
 4. 
  - a) Запустити проект
@@ -67,12 +67,13 @@ docker-compose up -d
 ```sh
 docker-compose down
 ```
-### Additional commands (бекенд): 
+
+#### Additional commands (бекенд): 
 1. Оновлення гемів при додаванні/видаленні гемів у Gemfile
 ```sh
-docker-compose run --rm web bundle install
+docker-compose run --rm backend bundle install
 ```
 2. Запустити rails консоль в окремому контейнері
 ```sh
-docker-compose run --rm web rails c
+docker-compose run --rm backend rails c
 ```
